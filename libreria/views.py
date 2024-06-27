@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Libro
+from .forms import LibroForm
 
 
 def inicio(request):
@@ -21,7 +22,11 @@ def libros(request):
 
 
 def crear(request):
-    return render(request, 'libros/crear.html')
+    formulario = LibroForm(request.POST or None, request.FILES or None)
+    if formulario.is_valid():
+        formulario.save()
+        return redirect('libros')
+    return render(request, 'libros/crear.html', {'formulario': formulario})
 
 
 def editar(request):

@@ -1,16 +1,19 @@
 
         <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {% for campo in formulario %}
             <div class="mb-3">
-                <label for="nombrelibro" class="form-label">Nombre</label>
+                <label for="nombrelibro" class="form-label">{{ campo.label }}</label>
                 <input
-                    type="text"
+                    type="{{ campo.field.widget.input_type }}"
                     class="form-control"
-                    name=""
+                    name="{{ campo.name }}"
                     id="nombrelibro"
                     aria-describedby="helpId"
-                    placeholder="Nombre del Libro"
+                    placeholder="{{ campo.label }}"
                 />
-
             </div>
-
+            <div class="col-12 help-text">{{ campo.errors }}</div>
+            {% endfor %}
+            <input name="" id="" class="btn btn-success" type="submit" value="Guardar">
         </form>
